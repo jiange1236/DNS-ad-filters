@@ -27,6 +27,7 @@ jobs:
           echo "BlueSkyXN_skyrules=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/skyrules.txt" >> $GITHUB_ENV
           echo "BlueSkyXN_ok=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/ok.txt" >> $GITHUB_ENV
           echo "Cats_Team_adrules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
+          echo "neodevpro_host=https://raw.githubusercontent.com/neodevpro/neodevhost/master/domain" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the default branch
@@ -38,6 +39,7 @@ jobs:
           mkdir -p AdGuard
           mkdir -p BlueSkyXN
           mkdir -p Cats-Team
+          mkdir -p neodevhost
 
       - name: Generate 217heidai file
         run: |
@@ -57,6 +59,10 @@ jobs:
       - name: Generate Cats-Team file
         run: |
           curl -sSL ${Cats_Team_adrules} | grep "^DOMAIN-SUFFIX," | sed -e 's/^DOMAIN-SUFFIX,//' > Cats-Team/adrules.txt
+
+      - name: Generate neodevhost file
+        run: |
+          curl -sSL ${neodevpro_host} | grep -Ev "^#" > neodevhost/domain.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
@@ -78,6 +84,11 @@ jobs:
         with:
           args: zip -qq -r Cats-Team.zip Cats-Team
 
+      - name: Zip neodevhost
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r neodevhost.zip neodevhost
+
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
         with:
@@ -93,10 +104,13 @@ jobs:
           mkdir -p publish/AdGuard
           mkdir -p publish/BlueSkyXN
           mkdir -p publish/Cats-Team
+          mkdir -p publish/neodevhost
           mv 217heidai/* ./publish/217heidai/
           mv AdGuard/* ./publish/AdGuard/
           mv BlueSkyXN/* ./publish/BlueSkyXN/
           mv Cats-Team/* ./publish/Cats-Team/
+          mv neodevhost/* ./publish/neodevhost/
+          
 
       - name: Git push assets to "release" branch
         run: |
@@ -124,4 +138,7 @@ jobs:
           done
           for file in $(ls Cats-Team); do
             curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/Cats-Team/${file}"
+          done
+          for file in $(ls neodevhost); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/neodevhost/${file}"
           done
