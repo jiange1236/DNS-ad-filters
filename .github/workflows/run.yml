@@ -36,13 +36,13 @@ jobs:
 
       - name: Generate 217heidai file
         run: |
-          curl -sSL ${heidai_dns} | grep -Ev "^(#|!|@@)" | grep -v "^[[:space:]]*$" | sed -e 's/^||//; s/\^$//' > 217heidai/adblockdns.txt
-          curl -sSL ${heidai_dns} | grep -Ev "^(#|!|\|\|)" | grep -v "^[[:space:]]*$" | sed -e 's/^@@||//; s/\^$//' > 217heidai/adblockdns-whitelist.txt
+          curl -sSL ${heidai_dns} | grep "^||" | sed -e 's/^||//; s/\^$//' > 217heidai/adblockdns.txt
+          curl -sSL ${heidai_dns} | grep "^@@||" | sed -e 's/^@@||//; s/[\^|]$//' > 217heidai/adblockdns-whitelist.txt
 
       - name: Generate AdGuard file
         run: |
-          curl -sSL ${AdGuardSDNSFilter} | grep -Ev "^(#|!|@@)" | grep -v "^[[:space:]]*$" | sed -e 's/^||//; s/\^$//' > AdGuard/dnsfilter.txt
-          curl -sSL ${AdGuardSDNSFilter} | grep -Ev "^(#|!|\|\|)" | grep -v "^[[:space:]]*$" | sed -e 's/^@@||//; s/\^$//' > AdGuard/dnsfilter-whitelist.txt
+          curl -sSL ${AdGuardSDNSFilter} | grep "^||" | sed -e 's/^||//; s/\^$//' > AdGuard/dnsfilter.txt
+          curl -sSL ${AdGuardSDNSFilter} | grep "^@@||" | sed -e 's/^@@||//; s/[\^|]$//' > AdGuard/dnsfilter-whitelist.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
