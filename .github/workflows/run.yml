@@ -32,8 +32,9 @@ jobs:
         run: |
           mkdir -p 217heidai
 
-      - name: Generate adblockdns.txt file
+      - name: Generate adblockdns.txt & adblockdns-whitelist.txt file
         run: |
+          curl -sSL ${heidai_dns} | grep -Ev "^(#|!|@@)" | grep -v "^[[:space:]]*$" | sed -e 's/^||//; s/\^$//' > 217heidai/adblockdns.txt
           curl -sSL ${heidai_dns} | grep -Ev "^(#|!|\|\|)" | grep -v "^[[:space:]]*$" | sed -e 's/^@@||//; s/\^$//' > 217heidai/adblockdns-whitelist.txt
 
       - name: Zip 217heidai
