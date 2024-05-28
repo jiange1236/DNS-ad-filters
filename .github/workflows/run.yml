@@ -26,7 +26,7 @@ jobs:
           echo "AdGuardSDNSFilter=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
           echo "BlueSkyXN_skyrules=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/skyrules.txt" >> $GITHUB_ENV
           echo "BlueSkyXN_ok=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/ok.txt" >> $GITHUB_ENV
-          echo "Cats-Team_adrules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
+          echo "Cats_Team_adrules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the default branch
@@ -56,7 +56,7 @@ jobs:
 
       - name: Generate Cats-Team file
         run: |
-          curl -sSL ${Cats-Team_adrules} | grep "^DOMAIN-SUFFIX," | sed -e 's/^DOMAIN-SUFFIX//; s/^,//' > Cats-Team/adrules.txt
+          curl -sSL ${Cats_Team_adrules} | grep "^DOMAIN-SUFFIX," | sed -e 's/^DOMAIN-SUFFIX,//' > Cats-Team/adrules.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
