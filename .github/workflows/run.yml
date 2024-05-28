@@ -23,6 +23,7 @@ jobs:
           echo "RELEASE_NAME=Released on $(date +%Y%m%d%H%M)" >> $GITHUB_ENV
           echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
           echo "heidai_dns=https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt" >> $GITHUB_ENV
+          echo "AdGuardSDNSFilter=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the default branch
@@ -31,16 +32,27 @@ jobs:
       - name: Make directory
         run: |
           mkdir -p 217heidai
+          mkdir -p AdGuard
 
-      - name: Generate adblockdns.txt & adblockdns-whitelist.txt file
+      - name: Generate 217heidai file
         run: |
           curl -sSL ${heidai_dns} | grep -Ev "^(#|!|@@)" | grep -v "^[[:space:]]*$" | sed -e 's/^||//; s/\^$//' > 217heidai/adblockdns.txt
           curl -sSL ${heidai_dns} | grep -Ev "^(#|!|\|\|)" | grep -v "^[[:space:]]*$" | sed -e 's/^@@||//; s/\^$//' > 217heidai/adblockdns-whitelist.txt
+
+      - name: Generate AdGuard file
+        run: |
+          curl -sSL ${AdGuardSDNSFilter} | grep -Ev "^(#|!|@@)" | grep -v "^[[:space:]]*$" | sed -e 's/^||//; s/\^$//' > AdGuard/dnsfilter.txt
+          curl -sSL ${AdGuardSDNSFilter} | grep -Ev "^(#|!|\|\|)" | grep -v "^[[:space:]]*$" | sed -e 's/^@@||//; s/\^$//' > AdGuard/dnsfilter-whitelist.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r 217heidai.zip 217heidai
+
+      - name: Zip AdGuard
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r AdGuard.zip AdGuard
 
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
@@ -54,7 +66,9 @@ jobs:
       - name: Move files to publish directory
         run: |
           mkdir -p publish/217heidai
+          mkdir -p publish/AdGuard
           mv 217heidai/* ./publish/217heidai/
+          mv AdGuard/* ./publish/AdGuard/
 
       - name: Git push assets to "release" branch
         run: |
@@ -73,4 +87,7 @@ jobs:
           cd publish || exit 1
           for file in $(ls 217heidai); do
             curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/217heidai/${file}"
+          done
+          for file in $(ls AdGuard); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/AdGuard/${file}"
           done
