@@ -1,0 +1,75 @@
+name: Generate routing rules for smartdns
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 22 * * *"
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**/README.md"
+permissions:
+  contents: write
+  packages: write
+  actions: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set variables
+        run: |
+          echo "RELEASE_NAME=Released on $(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+          echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+          echo "217heidai_dns=https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Checkout the default branch
+        uses: actions/checkout@v4
+
+      - name: Make directory
+        run: |
+          mkdir -p 217heidai
+
+      - name: Generate adblockdns.txt file
+        run: |
+          curl -sSL ${217heidai_dns} | grep -Ev "^#" | grep -v "^[[:space:]]*$" | grep -Ev "^!" | sed -e '/.*\(.*\)\^.*/\1/' > 217heidai/adblockdns.txt
+
+      - name: Zip 217heidai
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r 217heidai.zip 217heidai
+
+      - name: Upload files to GitHub release
+        uses: softprops/action-gh-release@v2.0.5
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          files: |
+            ./*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move files to publish directory
+        run: |
+          mkdir -p publish/217heidai
+          mv 217heidai/* ./publish/217heidai/
+
+      - name: Git push assets to "release" branch
+        run: |
+          cd publish || exit 1
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b release
+          git add .
+          git commit -m "${{ env.RELEASE_NAME }}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u origin release
+
+      - name: Purge jsdelivr CDN
+        run: |
+          cd publish || exit 1
+          for file in $(ls 217heidai); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/217heidai/${file}"
+          done
