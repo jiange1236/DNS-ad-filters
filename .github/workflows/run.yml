@@ -28,6 +28,18 @@ jobs:
           echo "BlueSkyXN_ok=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/ok.txt" >> $GITHUB_ENV
           echo "Cats_Team_adrules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
           echo "neodevpro_host=https://raw.githubusercontent.com/neodevpro/neodevhost/master/domain" >> $GITHUB_ENV
+          echo "1Hosts_mini=https://raw.githubusercontent.com/badmojr/1Hosts/master/mini/domains.txt" >> $GITHUB_ENV
+          echo "1Hosts_Lite=https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/domains.txt" >> $GITHUB_ENV
+          echo "1Hosts_Pro=https://raw.githubusercontent.com/badmojr/1Hosts/master/Pro/domains.txt" >> $GITHUB_ENV
+          echo "AWAvenue_Ads_Rule=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-AdClose.txt" >> $GITHUB_ENV
+          echo "hBlock_hosts=https://hblock.molinero.dev/hosts_domains.txt" >> $GITHUB_ENV
+          echo "OISD_small=https://small.oisd.nl/domainswild2" >> $GITHUB_ENV
+          echo "OISD_big=https://big.oisd.nl/domainswild2" >> $GITHUB_ENV
+          echo "OISD_nsfw=https://nsfw.oisd.nl/domainswild2" >> $GITHUB_ENV
+          echo "PiHoleBlocklist=https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt" >> $GITHUB_ENV
+          echo "1024_hosts=https://raw.githubusercontent.com/Goooler/1024_hosts/master/hosts" >> $GITHUB_ENV
+          echo "ad_wars=https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts" >> $GITHUB_ENV
+          echo "StevenBlack_hosts=https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the default branch
