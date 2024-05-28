@@ -52,11 +52,11 @@ jobs:
       - name: Generate BlueSkyXN file
         run: |
           curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | sed -e 's/^||//; s/\^$//' > BlueSkyXN/skyrules.txt
-          curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
+          curl -sSL ${BlueSkyXN_ok} grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
 
       - name: Generate Cats-Team file
         run: |
-          curl -sSL ${Cats-Team_adrules} | sed -e 's/^DOMAIN-SUFFIX,//' > Cats-Team/adrules.txt
+          curl -sSL ${Cats-Team_adrules} | grep "^DOMAIN-SUFFIX," | sed -e 's/^DOMAIN-SUFFIX//; s/^,//' > Cats-Team/adrules.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
