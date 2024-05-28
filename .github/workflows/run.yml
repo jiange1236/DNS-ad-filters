@@ -24,6 +24,8 @@ jobs:
           echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
           echo "heidai_dns=https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt" >> $GITHUB_ENV
           echo "AdGuardSDNSFilter=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
+          echo "BlueSkyXN_skyrules=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/skyrules.txt" >> $GITHUB_ENV
+          echo "BlueSkyXN_ok=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/ok.txt" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the default branch
@@ -33,6 +35,7 @@ jobs:
         run: |
           mkdir -p 217heidai
           mkdir -p AdGuard
+          mkdir -p BlueSkyXN
 
       - name: Generate 217heidai file
         run: |
@@ -44,6 +47,11 @@ jobs:
           curl -sSL ${AdGuardSDNSFilter} | grep "^||" | sed -e 's/^||//; s/\^$//' > AdGuard/dnsfilter.txt
           curl -sSL ${AdGuardSDNSFilter} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > AdGuard/dnsfilter-whitelist.txt
 
+      - name: Generate BlueSkyXN file
+        run: |
+          curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | sed -e 's/^||//; s/\^$//' > BlueSkyXN/skyrules.txt
+          curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
+
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
         with:
@@ -53,6 +61,11 @@ jobs:
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r AdGuard.zip AdGuard
+
+      - name: Zip BlueSkyXN
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r BlueSkyXN.zip BlueSkyXN
 
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
@@ -67,8 +80,10 @@ jobs:
         run: |
           mkdir -p publish/217heidai
           mkdir -p publish/AdGuard
+          mkdir -p publish/BlueSkyXN
           mv 217heidai/* ./publish/217heidai/
           mv AdGuard/* ./publish/AdGuard/
+          mv BlueSkyXN/* ./publish/BlueSkyXN/
 
       - name: Git push assets to "release" branch
         run: |
@@ -90,4 +105,7 @@ jobs:
           done
           for file in $(ls AdGuard); do
             curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/AdGuard/${file}"
+          done
+          for file in $(ls BlueSkyXN); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/BlueSkyXN/${file}"
           done
