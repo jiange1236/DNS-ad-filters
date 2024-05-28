@@ -34,7 +34,7 @@ jobs:
 
       - name: Generate adblockdns.txt file
         run: |
-          curl -sSL ${217heidai_dns} | grep -Ev "^(#|!)" | grep -v "^[[:space:]]*$" | sed -e 's/^\|\|//; s/\^$//' > 217heidai/adblockdns.txt
+          curl -sSL ${{ env.217heidai_dns }} | grep -Ev "^(#|!)" | grep -v "^[[:space:]]*$" | sed -e 's/^\|\|//; s/\^$//' > 217heidai/adblockdns.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
