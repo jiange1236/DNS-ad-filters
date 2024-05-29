@@ -65,8 +65,8 @@ jobs:
 
       - name: Generate BlueSkyXN file
         run: |
-          curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | sed -e 's/^||//; s/\^.*//; s/\/.*//' > BlueSkyXN/skyrules.txt
-          curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
+          curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | sed -e 's/^||//; s/\^.*// > BlueSkyXN/skyrules.txt
+          curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | sed -e 's/^@@||//;  s/[\^]$//' > BlueSkyXN/ok.txt
 
       - name: Generate Cats-Team file
         run: |
