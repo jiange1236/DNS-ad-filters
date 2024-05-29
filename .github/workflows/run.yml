@@ -109,10 +109,10 @@ jobs:
       - name: Move files to publish directory
         shell: bash
         run: |
-          dirs=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost)
-          for dir in "${dirs[@]}"; do     
-              mkdir -p "publish/$dir"
-              mv "$dir"/* "./publish/$dir/"
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost)
+          for DIR in "${DIRS[@]}"; do     
+              mkdir -p "publish/$DIR"
+              find "$DIR" -maxdepth 1 -type f -exec mv {} "./publish/$DIR/" \;
           done
 
       - name: Git push assets to "release" branch
@@ -130,18 +130,13 @@ jobs:
       - name: Purge jsdelivr CDN
         run: |
           cd publish || exit 1
-          for file in $(ls 217heidai); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/217heidai/${file}"
-          done
-          for file in $(ls AdGuard); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/AdGuard/${file}"
-          done
-          for file in $(ls BlueSkyXN); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/BlueSkyXN/${file}"
-          done
-          for file in $(ls Cats-Team); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/Cats-Team/${file}"
-          done
-          for file in $(ls neodevhost); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/neodevhost/${file}"
+          for DIR in "${DIRS[@]}"; do  
+            if [ -d "$DIR" ]; then  
+              for file in "$DIR"/*; do  
+                if [ -f "$file" ]; then  
+                  RELATIVE_PATH="${file#$PWD/publish/}"  
+                  curl -si "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${RELATIVE_PATH}"  
+                fi  
+              done  
+            fi
           done
