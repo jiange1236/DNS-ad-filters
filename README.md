@@ -12,12 +12,20 @@
 
 > 如果无法访问域名 `raw.githubusercontent.com`，可以使用第二个地址（`cdn.jsdelivr.net`），但是内容更新会有 12 小时的延迟。
 
-- **直连域名列表 direct-list.txt**：
-  - [https://raw.githubusercontent.com/jiange1236/smartdns-rules/release/Loyalsoldier/direct-list.txt](https://raw.githubusercontent.com/jiange1236/smartdns-rules/release/Loyalsoldier/direct-list.txt)
-  - [https://cdn.jsdelivr.net/gh/jiange1236/smartdns-rules@release/Loyalsoldier/direct-list.txt](https://cdn.jsdelivr.net/gh/jiange1236/smartdns-rules@release/Loyalsoldier/direct-list.txt)
-- **代理域名列表 proxy-list.txt**：
-  - [https://raw.githubusercontent.com/jiange1236/smartdns-rules/release/Loyalsoldier/proxy-list.txt](https://raw.githubusercontent.com/jiange1236/smartdns-rules/release/Loyalsoldier/proxy-list.txt)
-  - [https://cdn.jsdelivr.net/gh/jiange1236/smartdns-rules@release/Loyalsoldier/proxy-list.txt](https://cdn.jsdelivr.net/gh/jiange1236/smartdns-rules@release/Loyalsoldier/proxy-list.txt)
+#### 217heidai
+- **屏蔽域名列表 adblockdns.txt**：
+  - [https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/217heidai/adblockdns.txt](https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/217heidai/adblockdns.txt)
+  - [https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/217heidai/adblockdns.txt](https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/217heidai/adblockdns.txt)
+- **白名单域名列表 proxy-list.txt**：
+  - [https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/217heidai/adblockdns-whitelist.txt](https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/217heidai/adblockdns-whitelist.txt)
+  - [https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/217heidai/adblockdns-whitelist.txt](https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/217heidai/adblockdns-whitelist.txt)
+#### AdGuard
+- **屏蔽域名列表 dnsfilter.txt**：
+  - [https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/AdGuard/dnsfilter.txt](https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/AdGuard/dnsfilter.txt)
+  - [https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/AdGuard/dnsfilter.txt](https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/AdGuard/dnsfilter.txt)
+- **白名单域名列表 dnsfilter-whitelist.txt**：
+  - [https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/AdGuard/dnsfilter-whitelist.txt](https://raw.githubusercontent.com/jiange1236/DNS-ad-filters/release/AdGuard/dnsfilter-whitelist.txt)
+  - [https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/AdGuard/dnsfilter-whitelist.txt](https://cdn.jsdelivr.net/gh/jiange1236/DNS-ad-filters@release/AdGuard/dnsfilter-whitelist.txt)
 
 ### 使用方式
 
