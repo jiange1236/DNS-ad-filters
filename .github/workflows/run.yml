@@ -72,6 +72,16 @@ jobs:
         run: |
           curl -sSL ${neodevpro_host} | grep -Ev "^#" > neodevhost/domain.txt
 
+      - name: Generate badmojr file
+        run: |
+          curl -sSL ${1Hosts_mini} | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
+          curl -sSL ${1Hosts_Lite} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
+          curl -sSL ${1Hosts_Pro} | grep -Ev "^#" > badmojr/1Hosts_Pro_domains.txt
+
+      - name: Generate TG-Twilight file
+        run: |
+          curl -sSL ${AWAvenue_Ads_Rule} | grep -Ev "^!|.*\*" > TG-Twilight/AWAvenue-Ads-Rule-AdClose.txt
+
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
         with:
@@ -96,6 +106,16 @@ jobs:
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r neodevhost.zip neodevhost
+
+      - name: Zip badmojr
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r badmojr.zip badmojr
+
+      - name: Zip TG-Twilight
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r TG-Twilight.zip TG-Twilight
 
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
