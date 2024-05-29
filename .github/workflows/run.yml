@@ -107,14 +107,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Move files to publish directory
+        shell: bash
         run: |
-          #!/bin/bash
           dirs=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost)
           for dir in "${dirs[@]}"; do     
               mkdir -p "publish/$dir"
               mv "$dir"/* "./publish/$dir/"
           done
-          shell: bash
 
       - name: Git push assets to "release" branch
         run: |
