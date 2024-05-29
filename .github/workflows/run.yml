@@ -130,6 +130,7 @@ jobs:
       - name: Purge jsdelivr CDN
         run: |
           cd publish || exit 1
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost)
           for DIR in "${DIRS[@]}"; do  
             if [ -d "$DIR" ]; then  
               for file in "$DIR"/*; do  
