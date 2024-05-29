@@ -109,7 +109,7 @@ jobs:
       - name: Move files to publish directory
         run: |
           #!/bin/bash
-          dirs=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack)
+          dirs=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost)
           for dir in "${dirs[@]}"; do     
               mkdir -p "publish/$dir"
               mv "$dir"/* "./publish/$dir/"
