@@ -7,7 +7,9 @@ on:
     branches:
       - master
     paths-ignore:
-      - "**/README.md"
+      - "README.md"
+      - "LICENSE"
+      
 permissions:
   contents: write
   packages: write
@@ -40,6 +42,12 @@ jobs:
           echo "1024_hosts=https://raw.githubusercontent.com/Goooler/1024_hosts/master/hosts" >> $GITHUB_ENV
           echo "ad_wars=https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts" >> $GITHUB_ENV
           echo "StevenBlack_hosts=https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" >> $GITHUB_ENV
+          echo "anti_AD=https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-domains.txt" >> $GITHUB_ENV
+          echo "AdAway=https://adaway.org/hosts.txt" >> $GITHUB_ENV
+          echo "MVPS_hosts=https://winhelp2002.mvps.org/hosts.txt" >> $GITHUB_ENV
+          echo "YousList=https://raw.githubusercontent.com/yous/YousList/master/hosts.txt" >> $GITHUB_ENV
+          echo "pgl=https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext" >> $GITHUB_ENV
+          echo "someonewhocares=https://someonewhocares.org/hosts/hosts" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the default branch
@@ -47,7 +55,7 @@ jobs:
 
       - name: Make directory
         run: |
-          mkdir -p 217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack
+          mkdir -p 217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack anti-AD adaway mvps yous yoyo someonewhocares
 
       - name: Generate 217heidai file
         run: |
@@ -75,12 +83,22 @@ jobs:
       - name: Generate badmojr file
         run: |
           curl -sSL ${Hosts_mini} | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
-          curl -sSL ${Hosts_Lite} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
+          curl -sSL ${Hosts_big} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
           curl -sSL ${Hosts_Pro} | grep -Ev "^#" > badmojr/1Hosts_Pro_domains.txt
 
       - name: Generate TG-Twilight file
         run: |
           curl -sSL ${AWAvenue_Ads_Rule} | grep -Ev "^!|.*\*" > TG-Twilight/AWAvenue-Ads-Rule-AdClose.txt
+
+      - name: Generate hBlock file
+        run: |
+          curl -sSL ${hBlock_hosts} | grep -Ev "^#" > hBlock/hosts_domains.txt
+
+      - name: Generate OISD file
+        run: |
+          curl -sSL ${OISD_small} | grep -Ev "^#" > OISD/oisd_small_domainswild2.txt
+          curl -sSL ${OISD_small} | grep -Ev "^#" > OISD/oisd_big_domainswild2.txt
+          curl -sSL ${OISD_nsfw} | grep -Ev "^#" > OISD/oisd_nsfw_domainswild2.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
@@ -117,6 +135,16 @@ jobs:
         with:
           args: zip -qq -r TG-Twilight.zip TG-Twilight
 
+      - name: Zip hBlock
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r hBlock.zip hBlock
+
+      - name: Zip OISD
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r OISD.zip OISD
+
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
         with:
@@ -129,7 +157,7 @@ jobs:
       - name: Move files to publish directory
         shell: bash
         run: |
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight)
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD)
           for DIR in "${DIRS[@]}"; do     
               mkdir -p "publish/$DIR"
               find "$DIR" -maxdepth 1 -type f -exec mv {} "./publish/$DIR/" \;
@@ -150,7 +178,7 @@ jobs:
       - name: Purge jsdelivr CDN
         run: |
           cd publish || exit 1
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight)
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD)
           for DIR in "${DIRS[@]}"; do  
             if [ -d "$DIR" ]; then  
               for file in "$DIR"/*; do  
