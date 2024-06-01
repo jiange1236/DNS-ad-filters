@@ -82,8 +82,8 @@ jobs:
 
       - name: Generate badmojr file
         run: |
-          curl -sSL "${Hosts_mini} | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
-          curl -sSL "${Hosts_Lite} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
+          curl -sSL ${Hosts_mini} | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
+          curl -sSL ${Hosts_Lite} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
           curl -sSL ${Hosts_Pro} | grep -Ev "^#" > badmojr/1Hosts_Pro_domains.txt
 
       - name: Generate TG-Twilight file
