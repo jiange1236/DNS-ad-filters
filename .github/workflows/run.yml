@@ -78,13 +78,13 @@ jobs:
 
       - name: Generate neodevhost file
         run: |
-          curl -sSL ${neodevpro_host} | grep -Ev "^#" > neodevhost/domain.txt
+          curl -sSL ${neodevpro_host} | grep -Ev '^(#|$)' > neodevhost/domain.txt
 
       - name: Generate badmojr file
         run: |
-          curl -sSL ${Hosts_mini} | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
-          curl -sSL ${Hosts_Lite} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
-          curl -sSL ${Hosts_Pro} | grep -Ev "^#" > badmojr/1Hosts_Pro_domains.txt
+          curl -sSL ${Hosts_mini} | grep -Ev '^(#|$)' > badmojr/1Hosts_mini_domains.txt
+          curl -sSL ${Hosts_Lite} | grep -Ev '^(#|$)' > badmojr/1Hosts_Lite_domains.txt
+          curl -sSL ${Hosts_Pro} | grep -Ev '^(#|$)' > badmojr/1Hosts_Pro_domains.txt
 
       - name: Generate TG-Twilight file
         run: |
@@ -92,13 +92,25 @@ jobs:
 
       - name: Generate hBlock file
         run: |
-          curl -sSL ${hBlock_hosts} | grep -Ev "^#" > hBlock/hosts_domains.txt
+          curl -sSL ${hBlock_hosts} | grep -Ev '^(#|$)' > hBlock/hosts_domains.txt
 
       - name: Generate OISD file
         run: |
-          curl -sSL ${OISD_small} | grep -Ev "^#" > OISD/oisd_small_domainswild2.txt
-          curl -sSL ${OISD_big} | grep -Ev "^#" > OISD/oisd_big_domainswild2.txt
-          curl -sSL ${OISD_nsfw} | grep -Ev "^#" > OISD/oisd_nsfw_domainswild2.txt
+          curl -sSL ${OISD_small} | grep -Ev '^(#|$)' > OISD/oisd_small_domainswild2.txt
+          curl -sSL ${OISD_big} | grep -Ev '^(#|$)' > OISD/oisd_big_domainswild2.txt
+          curl -sSL ${OISD_nsfw} | grep -Ev '^(#|$)' > OISD/oisd_nsfw_domainswild2.txt
+
+      - name: Generate Perflyst file
+        run: |
+          curl -sSL ${PiHoleBlocklist} | grep -Ev '^(#|$)' > Perflyst/SmartTV.txt
+
+      - name: Generate Goooler file
+        run: |
+          curl -sSL "${1024_hosts}" | grep -Ev '^(#|$)' | sed 's/^127.0.0.1[[:space:]]*//' > Goooler/hosts.txt
+
+      - name: Generate jdlingyu file
+        run: |
+          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)' | sed 's/^127.0.0.1[[:space:]]*//' > jdlingyu/hosts.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
@@ -145,6 +157,21 @@ jobs:
         with:
           args: zip -qq -r OISD.zip OISD
 
+      - name: Zip Perflyst
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r Perflyst.zip Perflyst
+
+      - name: Zip Goooler
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r Goooler.zip Goooler
+
+      - name: Zip jdlingyu
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r jdlingyu.zip jdlingyu
+
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
         with:
@@ -157,7 +184,7 @@ jobs:
       - name: Move files to publish directory
         shell: bash
         run: |
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD)
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu)
           for DIR in "${DIRS[@]}"; do     
               mkdir -p "publish/$DIR"
               find "$DIR" -maxdepth 1 -type f -exec mv {} "./publish/$DIR/" \;
@@ -178,7 +205,7 @@ jobs:
       - name: Purge jsdelivr CDN
         run: |
           cd publish || exit 1
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD)
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu)
           for DIR in "${DIRS[@]}"; do  
             if [ -d "$DIR" ]; then  
               for file in "$DIR"/*; do  
