@@ -82,10 +82,9 @@ jobs:
 
       - name: Generate badmojr file
         run: |
-          echo "Hosts_mini is set to ${Hosts_mini}"
-          curl -sSL "${Hosts_mini}" | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
-          curl -sSL "${Hosts_big}" | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
-          curl -sSL "${Hosts_Pro}" | grep -Ev "^#" > badmojr/1Hosts_Pro_domains.txt
+          curl -sSL "https://raw.githubusercontent.com/badmojr/1Hosts/master/mini/domains.txt" | grep -Ev "^#" > badmojr/1Hosts_mini_domains.txt
+          curl -sSL "${Hosts_big} | grep -Ev "^#" > badmojr/1Hosts_Lite_domains.txt
+          curl -sSL ${Hosts_Pro} | grep -Ev "^#" > badmojr/1Hosts_Pro_domains.txt
 
       - name: Generate TG-Twilight file
         run: |
