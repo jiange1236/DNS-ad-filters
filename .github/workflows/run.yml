@@ -110,7 +110,7 @@ jobs:
 
       - name: Generate ad-wars file
         run: |
-          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/[[:space:]]#-*.*//' | sed 's/localhost/'> ad-wars/hosts.txt
+          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)' | grep -v 'localhost' | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/[[:space:]]#-*.*//' > ad-wars/hosts.txt
 
       - name: Generate StevenBlack file
         run: |
