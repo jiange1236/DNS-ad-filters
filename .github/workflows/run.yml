@@ -59,18 +59,18 @@ jobs:
 
       - name: Generate 217heidai file
         run: |
-          curl -sSL ${heidai_dns} | grep "^||" | sed -e 's/^||//; s/\^$//' > 217heidai/adblockdns.txt
-          curl -sSL ${heidai_dns} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > 217heidai/adblockdns-whitelist.txt
+          curl -sSL ${heidai_dns} | grep "^||" | grep -Ev ".*\*.*" | sed -e 's/^||//; s/\^$//' > 217heidai/adblockdns.txt
+          curl -sSL ${heidai_dns} | grep "^@@||" | grep -Ev ".*\*.*" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > 217heidai/adblockdns-whitelist.txt
 
       - name: Generate AdGuard file
         run: |
-          curl -sSL ${AdGuardSDNSFilter} | grep "^||" | sed -e 's/^||//; s/\^$//' > AdGuard/dnsfilter.txt
-          curl -sSL ${AdGuardSDNSFilter} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > AdGuard/dnsfilter-whitelist.txt
+          curl -sSL ${AdGuardSDNSFilter} | grep "^||" | grep -Ev ".*\*.*" | sed -e 's/^||//; s/\^$//' > AdGuard/dnsfilter.txt
+          curl -sSL ${AdGuardSDNSFilter} | grep "^@@||" | grep -Ev ".*\*.*" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > AdGuard/dnsfilter-whitelist.txt
 
       - name: Generate BlueSkyXN file
         run: |
-          curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | sed -e 's/^||//; s/\^.*//' > BlueSkyXN/skyrules.txt
-          curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
+          curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | grep -Ev ".*\*.*" | sed -e 's/^||//; s/\^.*//' > BlueSkyXN/skyrules.txt
+          curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | grep -Ev ".*\*.*" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
 
       - name: Generate AdRules file
         run: |
@@ -88,7 +88,7 @@ jobs:
 
       - name: Generate AWAvenue-Ads-Rule file
         run: |
-          curl -sSL ${AWAvenue_Ads_Rule} | grep -Ev "^!|.*\*" > AWAvenue-Ads-Rule/AWAvenue-Ads-Rule-AdClose.txt
+          curl -sSL ${AWAvenue_Ads_Rule} | grep -Ev "^!|.*\*|$" > AWAvenue-Ads-Rule/AWAvenue-Ads-Rule-AdClose.txt
 
       - name: Generate hBlock file
         run: |
@@ -106,11 +106,11 @@ jobs:
 
       - name: Generate 1024_hosts file
         run: |
-          curl -sSL "${1024_hosts}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > 1024_hosts/hosts.txt
+          curl -sSL "${1024_hosts}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > 1024_hosts/hosts.txt
 
       - name: Generate ad-wars file
         run: |
-          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > ad-wars/hosts.txt
+          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > ad-wars/hosts.txt
 
       - name: Generate StevenBlack file
         run: |
@@ -122,7 +122,7 @@ jobs:
 
       - name: Generate AdAway file
         run: |
-          curl -sSL ${AdAway} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > AdAway/hosts.txt
+          curl -sSL ${AdAway} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > AdAway/hosts.txt
 
       - name: Generate MVPS file
         run: |
@@ -134,11 +134,11 @@ jobs:
 
       - name: Generate pgl file
         run: |
-          curl -sSL ${pgl} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > pgl/hosts.txt
+          curl -sSL ${pgl} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > pgl/hosts.txt
 
       - name: Generate someonewhocares file
         run: |
-          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > someonewhocares/hosts.txt
+          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > someonewhocares/hosts.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
