@@ -28,7 +28,7 @@ jobs:
           echo "AdGuardSDNSFilter=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
           echo "BlueSkyXN_skyrules=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/skyrules.txt" >> $GITHUB_ENV
           echo "BlueSkyXN_ok=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/ok.txt" >> $GITHUB_ENV
-          echo "Cats_Team_adrules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
+          echo "AdRules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
           echo "neodevpro_host=https://raw.githubusercontent.com/neodevpro/neodevhost/master/domain" >> $GITHUB_ENV
           echo "Hosts_mini=https://raw.githubusercontent.com/badmojr/1Hosts/master/mini/domains.txt" >> $GITHUB_ENV
           echo "Hosts_Lite=https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/domains.txt" >> $GITHUB_ENV
@@ -55,7 +55,7 @@ jobs:
 
       - name: Make directory
         run: |
-          mkdir -p 217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack anti-AD adaway mvps yous yoyo someonewhocares
+          mkdir -p 217heidai AdGuard BlueSkyXN AdRules neodevhost 1Hosts AWAvenue-Ads-Rule hBlock OISD PiHoleBlocklist 1024_hosts ad-wars StevenBlack anti-AD AdAway MVPS YousList pgl someonewhocares
 
       - name: Generate 217heidai file
         run: |
@@ -72,23 +72,23 @@ jobs:
           curl -sSL ${BlueSkyXN_skyrules} | grep "^||" | sed -e 's/^||//; s/\^.*//' > BlueSkyXN/skyrules.txt
           curl -sSL ${BlueSkyXN_ok} | grep "^@@||" | sed -e 's/^@@||//; s/[\|]$//; s/[\^]$//' > BlueSkyXN/ok.txt
 
-      - name: Generate Cats-Team file
+      - name: Generate AdRules file
         run: |
-          curl -sSL ${Cats_Team_adrules} | grep "^DOMAIN-SUFFIX," | sed -e 's/^DOMAIN-SUFFIX,//' > Cats-Team/adrules.txt
+          curl -sSL ${AdRules} | grep "^DOMAIN-SUFFIX," | sed -e 's/^DOMAIN-SUFFIX,//' > AdRules/adrules.txt
 
       - name: Generate neodevhost file
         run: |
           curl -sSL ${neodevpro_host} | grep -Ev '^(#|$)' > neodevhost/domain.txt
 
-      - name: Generate badmojr file
+      - name: Generate 1Hosts file
         run: |
-          curl -sSL ${Hosts_mini} | grep -Ev '^(#|$)' > badmojr/1Hosts_mini_domains.txt
-          curl -sSL ${Hosts_Lite} | grep -Ev '^(#|$)' > badmojr/1Hosts_Lite_domains.txt
-          curl -sSL ${Hosts_Pro} | grep -Ev '^(#|$)' > badmojr/1Hosts_Pro_domains.txt
+          curl -sSL ${Hosts_mini} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_mini_domains.txt
+          curl -sSL ${Hosts_Lite} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Lite_domains.txt
+          curl -sSL ${Hosts_Pro} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Pro_domains.txt
 
-      - name: Generate TG-Twilight file
+      - name: Generate AWAvenue-Ads-Rule file
         run: |
-          curl -sSL ${AWAvenue_Ads_Rule} | grep -Ev "^!|.*\*" > TG-Twilight/AWAvenue-Ads-Rule-AdClose.txt
+          curl -sSL ${AWAvenue_Ads_Rule} | grep -Ev "^!|.*\*" > AWAvenue-Ads-Rule/AWAvenue-Ads-Rule-AdClose.txt
 
       - name: Generate hBlock file
         run: |
@@ -100,17 +100,17 @@ jobs:
           curl -sSL ${OISD_big} | grep -Ev '^(#|$)' > OISD/oisd_big_domainswild2.txt
           curl -sSL ${OISD_nsfw} | grep -Ev '^(#|$)' > OISD/oisd_nsfw_domainswild2.txt
 
-      - name: Generate Perflyst file
+      - name: Generate PiHoleBlocklist file
         run: |
-          curl -sSL ${PiHoleBlocklist} | grep -Ev '^(#|$)' > Perflyst/SmartTV.txt
+          curl -sSL ${PiHoleBlocklist} | grep -Ev '^(#|$)' > PiHoleBlocklist/SmartTV.txt
 
-      - name: Generate Goooler file
+      - name: Generate 1024_hosts file
         run: |
-          curl -sSL "${1024_hosts}" | grep -Ev '^(#|$)' | sed 's/^127.0.0.1[[:space:]]*//' > Goooler/hosts.txt
+          curl -sSL "${1024_hosts}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > 1024_hosts/hosts.txt
 
-      - name: Generate jdlingyu file
+      - name: Generate ad-wars file
         run: |
-          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)' | sed 's/^127.0.0.1[[:space:]]*//' > jdlingyu/hosts.txt
+          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > ad-wars/hosts.txt
 
       - name: Generate StevenBlack file
         run: |
@@ -118,7 +118,27 @@ jobs:
 
       - name: Generate anti-AD file
         run: |
-          curl -sSL ${anti-AD} | grep -Ev '^(#|$)' > anti-AD/anti-ad-domains.txt
+          curl -sSL ${anti_AD} | grep -Ev '^(#|$)' > anti-AD/anti-ad-domains.txt
+
+      - name: Generate AdAway file
+        run: |
+          curl -sSL ${AdAway} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > AdAway/hosts.txt
+
+      - name: Generate MVPS file
+        run: |
+          curl -sSL ${MVPS_hosts} | grep -Ev '^(#|$)'  | grep '^0\.0\.0\.0' | sed 's/^0.0.0.0[[:space:]]*//' > MVPS/hosts.txt
+
+      - name: Generate YousList file
+        run: |
+          curl -sSL ${YousList} | grep -Ev '^(#|$)'  | grep '^0\.0\.0\.0' | sed 's/^0.0.0.0[[:space:]]*//' > YousList/hosts.txt
+
+      - name: Generate pgl file
+        run: |
+          curl -sSL ${pgl} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > pgl/hosts.txt
+
+      - name: Generate someonewhocares file
+        run: |
+          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.0' | sed 's/^127.0.0.0[[:space:]]*//' > someonewhocares/hosts.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
@@ -135,25 +155,25 @@ jobs:
         with:
           args: zip -qq -r BlueSkyXN.zip BlueSkyXN
 
-      - name: Zip Cats-Team
+      - name: Zip AdRules
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r Cats-Team.zip Cats-Team
+          args: zip -qq -r AdRules.zip AdRules
 
       - name: Zip neodevhost
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r neodevhost.zip neodevhost
 
-      - name: Zip badmojr
+      - name: Zip 1Hosts
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r badmojr.zip badmojr
+          args: zip -qq -r 1Hosts.zip 1Hosts
 
-      - name: Zip TG-Twilight
+      - name: Zip AWAvenue-Ads-Rule
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r TG-Twilight.zip TG-Twilight
+          args: zip -qq -r AWAvenue-Ads-Rule.zip AWAvenue-Ads-Rule
 
       - name: Zip hBlock
         uses: montudor/action-zip@v1
@@ -165,20 +185,55 @@ jobs:
         with:
           args: zip -qq -r OISD.zip OISD
 
-      - name: Zip Perflyst
+      - name: Zip PiHoleBlocklist
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r Perflyst.zip Perflyst
+          args: zip -qq -r PiHoleBlocklist.zip PiHoleBlocklist
 
-      - name: Zip Goooler
+      - name: Zip 1024_hosts
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r Goooler.zip Goooler
+          args: zip -qq -r 1024_hosts.zip 1024_hosts
 
-      - name: Zip jdlingyu
+      - name: Zip ad-wars
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r jdlingyu.zip jdlingyu
+          args: zip -qq -r ad-wars.zip ad-wars
+
+      - name: Zip StevenBlack
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r StevenBlack.zip StevenBlack
+
+      - name: Zip anti-AD
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r anti-AD.zip anti-AD
+
+      - name: Zip AdAway
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r AdAway.zip AdAway
+
+      - name: Zip MVPS
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r MVPS.zip MVPS
+
+      - name: Zip YousList
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r YousList.zip YousList
+
+      - name: Zip pgl
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r pgl.zip pgl
+
+      - name: Zip someonewhocares
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r someonewhocares.zip someonewhocares
 
       - name: Upload files to GitHub release
         uses: softprops/action-gh-release@v2.0.5
@@ -192,7 +247,7 @@ jobs:
       - name: Move files to publish directory
         shell: bash
         run: |
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack anti-AD)
+          DIRS=(217heidai AdGuard BlueSkyXN AdRules neodevhost 1Hosts AWAvenue-Ads-Rule hBlock OISD PiHoleBlocklist 1024_hosts ad-wars StevenBlack anti-AD AdAway MVPS YousList pgl someonewhocares)
           for DIR in "${DIRS[@]}"; do     
               mkdir -p "publish/$DIR"
               find "$DIR" -maxdepth 1 -type f -exec mv {} "./publish/$DIR/" \;
@@ -213,7 +268,7 @@ jobs:
       - name: Purge jsdelivr CDN
         run: |
           cd publish || exit 1
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack anti-AD)
+          DIRS=(217heidai AdGuard BlueSkyXN AdRules neodevhost 1Hosts AWAvenue-Ads-Rule hBlock OISD PiHoleBlocklist 1024_hosts ad-wars StevenBlack anti-AD AdAway MVPS YousList pgl someonewhocares)
           for DIR in "${DIRS[@]}"; do  
             if [ -d "$DIR" ]; then  
               for file in "$DIR"/*; do  
