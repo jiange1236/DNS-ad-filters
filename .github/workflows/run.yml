@@ -112,6 +112,14 @@ jobs:
         run: |
           curl -sSL "${ad_wars}" | grep -Ev '^(#|$)' | sed 's/^127.0.0.1[[:space:]]*//' > jdlingyu/hosts.txt
 
+      - name: Generate StevenBlack file
+        run: |
+          curl -sSL "${StevenBlack_hosts}" | grep -Ev '^(#|$)' | grep '^0\.0\.0\.0' | sed 's/^0.0.0.0[[:space:]]*//' > StevenBlack/hosts.txt
+
+      - name: Generate anti-AD file
+        run: |
+          curl -sSL ${anti-AD} | grep -Ev '^(#|$)' > anti-AD/anti-ad-domains.txt
+
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
         with:
@@ -184,7 +192,7 @@ jobs:
       - name: Move files to publish directory
         shell: bash
         run: |
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu)
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack anti-AD)
           for DIR in "${DIRS[@]}"; do     
               mkdir -p "publish/$DIR"
               find "$DIR" -maxdepth 1 -type f -exec mv {} "./publish/$DIR/" \;
@@ -205,7 +213,7 @@ jobs:
       - name: Purge jsdelivr CDN
         run: |
           cd publish || exit 1
-          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu)
+          DIRS=(217heidai AdGuard BlueSkyXN Cats-Team neodevhost badmojr TG-Twilight hBlock OISD Perflyst Goooler jdlingyu StevenBlack anti-AD)
           for DIR in "${DIRS[@]}"; do  
             if [ -d "$DIR" ]; then  
               for file in "$DIR"/*; do  
