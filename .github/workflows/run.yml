@@ -138,7 +138,7 @@ jobs:
 
       - name: Generate someonewhocares file
         run: |
-          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/#.*//'> someonewhocares/hosts.txt
+          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)' | grep -v 'localhost' | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/#.*//'> someonewhocares/hosts.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
