@@ -102,7 +102,7 @@ jobs:
 
       - name: Generate PiHoleBlocklist file
         run: |
-          curl -sSL ${PiHoleBlocklist} | grep -Ev '^(#|$)' | sed 's/#*.*//'> PiHoleBlocklist/SmartTV.txt
+          curl -sSL ${PiHoleBlocklist} | grep -Ev '^(#|$)' | sed 's/#.*//'> PiHoleBlocklist/SmartTV.txt
 
       - name: Generate 1024_hosts file
         run: |
@@ -126,7 +126,7 @@ jobs:
 
       - name: Generate MVPS file
         run: |
-          curl -sSL ${MVPS_hosts} | grep -Ev '^(#|$)'  | grep '^0\.0\.0\.0' | sed 's/^0.0.0.0[[:space:]]*//' | sed 's/#*.*//' > MVPS/hosts.txt
+          curl -sSL ${MVPS_hosts} | grep -Ev '^(#|$)'  | grep '^0\.0\.0\.0' | sed 's/^0.0.0.0[[:space:]]*//' | sed 's/#.*//' > MVPS/hosts.txt
 
       - name: Generate YousList file
         run: |
@@ -138,7 +138,7 @@ jobs:
 
       - name: Generate someonewhocares file
         run: |
-          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/#*.*//'> someonewhocares/hosts.txt
+          curl -sSL ${someonewhocares} | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/#.*//'> someonewhocares/hosts.txt
 
       - name: Zip 217heidai
         uses: montudor/action-zip@v1
