@@ -39,7 +39,7 @@ jobs:
           echo "OISD_big=https://big.oisd.nl/domainswild2" >> $GITHUB_ENV
           echo "OISD_nsfw=https://nsfw.oisd.nl/domainswild2" >> $GITHUB_ENV
           echo "PiHoleBlocklist=https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt" >> $GITHUB_ENV
-          echo "'1024_hosts'=https://raw.githubusercontent.com/Goooler/1024_hosts/master/hosts" >> $GITHUB_ENV
+          echo "hosts_1024=https://raw.githubusercontent.com/Goooler/1024_hosts/master/hosts" >> $GITHUB_ENV
           echo "ad_wars=https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts" >> $GITHUB_ENV
           echo "StevenBlack_hosts=https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" >> $GITHUB_ENV
           echo "anti_AD=https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-domains.txt" >> $GITHUB_ENV
@@ -106,11 +106,11 @@ jobs:
 
       - name: Generate 1024_hosts file
         run: |
-          curl -sSL "${1024_hosts}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > 1024_hosts/hosts.txt
+          curl -sSL "${hosts_1024}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > 1024_hosts/hosts.txt
 
       - name: Generate ad-wars file
         run: |
-          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' > ad-wars/hosts.txt
+          curl -sSL "${ad_wars}" | grep -Ev '^(#|$)'  | grep '^127\.0\.0\.1' | sed 's/^127.0.0.1[[:space:]]*//' | sed 's/[[:space:]]#-*.*//'> ad-wars/hosts.txt
 
       - name: Generate StevenBlack file
         run: |
