@@ -1,6 +1,6 @@
 # 简介
 
-本项目生成适用于 [**Smartdns**] 的DNS屏蔽广告规则集（DOMAIN-SET）。使用 GitHub Actions 北京时间每天早上 6:30 自动构建，保证规则最新。
+本项目生成适用于 [**Smartdns**] 的DNS屏蔽广告规则集（DOMAIN-SET）。使用 GitHub Actions 北京时间每天早上 6:40 自动构建，保证规则最新。
 
 ## 说明
 
