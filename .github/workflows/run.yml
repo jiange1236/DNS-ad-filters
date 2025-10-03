@@ -30,7 +30,7 @@ jobs:
           echo "BlueSkyXN_ok=https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/ok.txt" >> $GITHUB_ENV
           echo "AdRules=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
           echo "neodevpro_host=https://raw.githubusercontent.com/neodevpro/neodevhost/master/domain" >> $GITHUB_ENV
-          echo "Hosts_mini=https://raw.githubusercontent.com/badmojr/1Hosts/master/mini/domains.txt" >> $GITHUB_ENV
+          echo "Hosts_Xtra=https://raw.githubusercontent.com/badmojr/1Hosts/master/Xtra/domains.txt" >> $GITHUB_ENV
           echo "Hosts_Lite=https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/domains.txt" >> $GITHUB_ENV
           echo "Hosts_Pro=https://raw.githubusercontent.com/badmojr/1Hosts/master/Pro/domains.txt" >> $GITHUB_ENV
           echo "AWAvenue_Ads_Rule=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-AdClose.txt" >> $GITHUB_ENV
@@ -82,7 +82,7 @@ jobs:
 
       - name: Generate 1Hosts file
         run: |
-          curl -sSL ${Hosts_mini} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_mini_domains.txt
+          curl -sSL ${Hosts_Xtra} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Xtra_domains.txt
           curl -sSL ${Hosts_Lite} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Lite_domains.txt
           curl -sSL ${Hosts_Pro} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Pro_domains.txt
 
