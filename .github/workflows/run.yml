@@ -32,7 +32,6 @@ jobs:
           echo "neodevpro_host=https://raw.githubusercontent.com/neodevpro/neodevhost/master/domain" >> $GITHUB_ENV
           echo "Hosts_Xtra=https://raw.githubusercontent.com/badmojr/1Hosts/master/Xtra/domains.txt" >> $GITHUB_ENV
           echo "Hosts_Lite=https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/domains.txt" >> $GITHUB_ENV
-          echo "Hosts_Pro=https://raw.githubusercontent.com/badmojr/1Hosts/master/Pro/domains.txt" >> $GITHUB_ENV
           echo "AWAvenue_Ads_Rule=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-AdClose.txt" >> $GITHUB_ENV
           echo "hBlock_hosts=https://hblock.molinero.dev/hosts_domains.txt" >> $GITHUB_ENV
           echo "OISD_small=https://small.oisd.nl/domainswild2" >> $GITHUB_ENV
@@ -84,7 +83,6 @@ jobs:
         run: |
           curl -sSL ${Hosts_Xtra} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Xtra_domains.txt
           curl -sSL ${Hosts_Lite} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Lite_domains.txt
-          curl -sSL ${Hosts_Pro} | grep -Ev '^(#|$)' > 1Hosts/1Hosts_Pro_domains.txt
 
       - name: Generate AWAvenue-Ads-Rule file
         run: |
